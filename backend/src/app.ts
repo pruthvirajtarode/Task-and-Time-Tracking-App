@@ -16,7 +16,21 @@ const app = express();
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    
+    const allowedClientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+    
+    if (
+      origin === allowedClientUrl || 
+      origin.startsWith('http://localhost') || 
+      origin.endsWith('.vercel.app')
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 app.use(express.json());
