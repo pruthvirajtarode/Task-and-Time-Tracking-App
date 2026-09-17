@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://task-and-time-tracking-app-7ml8.onrender.com/api',
+  baseURL: import.meta.env.VITE_API_URL || 'https://task-and-time-tracking-app-o717.vercel.app/api',
   headers: {
     'Content-Type': 'application/json',
   },
