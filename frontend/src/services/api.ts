@@ -25,10 +25,11 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
-      // Dispatch a custom event to tell the AuthContext we're logged out
       window.dispatchEvent(new Event('auth:logout'));
     }
-    return Promise.reject(error.response?.data || error);
+    const errData = error.response?.data;
+    const errorMessage = errData?.error?.message || errData?.message || error.message || 'An error occurred';
+    return Promise.reject(new Error(errorMessage));
   }
 );
 
