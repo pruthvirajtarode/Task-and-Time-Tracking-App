@@ -19,6 +19,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
   
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -51,13 +52,14 @@ export const Login = () => {
         
         {/* Left Side: Image Container (Hidden on mobile) */}
         <div className="hidden lg:flex w-1/2 relative bg-surface items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 bg-primary/10 z-10 mix-blend-overlay"></div>
+          <div className="absolute inset-0 bg-primary/10 z-10 mix-blend-overlay pointer-events-none"></div>
           <img 
             src="/auth-bg.png" 
             alt="Productivity Abstract" 
-            className="w-full h-full object-cover opacity-80"
+            className={`w-full h-full object-cover opacity-80 cursor-pointer transition-transform duration-700 ease-in-out ${isImageZoomed ? 'scale-125' : 'scale-100 hover:scale-105'}`}
+            onClick={() => setIsImageZoomed(!isImageZoomed)}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent z-10 flex flex-col justify-end p-12">
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent z-10 flex flex-col justify-end p-12 pointer-events-none">
             <h2 className="text-4xl font-bold text-white mb-4">Welcome Back to TaskFlow.</h2>
             <p className="text-textMuted text-lg max-w-md">Log in to seamlessly pick up where you left off and stay on top of your priorities.</p>
           </div>
