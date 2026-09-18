@@ -4,6 +4,11 @@
 
 TaskFlow AI is a premium full-stack SaaS application that allows users to seamlessly manage their tasks, track their time using a real-time global timer, and understand their productivity through comprehensive analytics. 
 
+## 🚀 Live Demo & Deliverables
+- ✅ **Live Demo Link**: [Insert Your Vercel Link Here]
+- ✅ **Working Authentication**: Secure JWT Auth implemented.
+- ✅ **Test Credentials**: `demo@taskflow.ai` / `DemoPassword123!`
+
 ## Features
 - **Authentication**: Secure JWT-based authentication with password hashing.
 - **Task Management**: Create, edit, and organize tasks with priority and status.
