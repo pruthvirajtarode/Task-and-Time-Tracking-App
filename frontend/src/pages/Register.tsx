@@ -54,13 +54,12 @@ export const Register = () => {
         password: data.password 
       });
       if (res.success) {
-        login(res.data.token, res.data.user);
         toast.success('Registration Successful!', {
-          description: 'Welcome to TaskFlow AI! Your account is ready.',
+          description: 'Your account has been created. Please sign in to continue.',
           icon: '🎉',
           duration: 4000,
         });
-        navigate('/dashboard');
+        navigate('/login');
       }
     } catch (error: any) {
       toast.error(error.error?.message || 'Registration failed');
