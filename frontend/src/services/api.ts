@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+const isDev = import.meta.env.DEV;
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_URL || (isDev ? 'http://localhost:5000/api' : 'https://task-and-time-tracking-app-o717.vercel.app/api'),
   headers: {
     'Content-Type': 'application/json',
   },
