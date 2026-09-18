@@ -47,7 +47,7 @@ export const Dashboard = () => {
       <div className="space-y-8 animate-fade-in pb-20">
         <div>
           <h1 className="text-3xl font-bold text-text flex items-center gap-2">
-            {getGreeting()} <span className="inline-block origin-bottom-right hover:animate-wave cursor-default select-none">👋</span>
+            {getGreeting()} <span className="inline-block origin-bottom-right animate-wave cursor-default select-none">👋</span>
           </h1>
         <p className="text-textMuted mt-2">Here's your productivity overview for today.</p>
       </div>
