@@ -35,7 +35,11 @@ export const Login = () => {
       const res: any = await api.post('/auth/login', { email: data.email, password: data.password });
       if (res.success) {
         login(res.data.token, res.data.user);
-        toast.success('Logged in successfully');
+        toast.success('Login Successful!', {
+          description: 'Welcome back! Your dashboard is ready.',
+          icon: '👋',
+          duration: 4000,
+        });
         navigate('/dashboard');
       }
     } catch (error: any) {

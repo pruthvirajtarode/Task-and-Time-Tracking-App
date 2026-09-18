@@ -55,7 +55,11 @@ export const Register = () => {
       });
       if (res.success) {
         login(res.data.token, res.data.user);
-        toast.success('Account created successfully');
+        toast.success('Registration Successful!', {
+          description: 'Welcome to TaskFlow AI! Your account is ready.',
+          icon: '🎉',
+          duration: 4000,
+        });
         navigate('/dashboard');
       }
     } catch (error: any) {

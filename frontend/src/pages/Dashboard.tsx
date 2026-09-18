@@ -43,69 +43,71 @@ export const Dashboard = () => {
       <SEO title="Dashboard" />
       <div className="space-y-8 animate-fade-in pb-20">
         <div>
-          <h1 className="text-3xl font-bold text-text">{getGreeting()} 👋</h1>
+          <h1 className="text-3xl font-bold text-text flex items-center gap-2">
+            {getGreeting()} <span className="inline-block origin-bottom-right hover:animate-wave cursor-default select-none">👋</span>
+          </h1>
         <p className="text-textMuted mt-2">Here's your productivity overview for today.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="card bg-gradient-to-br from-surface to-surfaceHover border-l-4 border-l-primary relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-4 opacity-10">
+        <div className="card bg-gradient-to-br from-surface to-surfaceHover border-l-4 border-l-primary relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 group-hover:opacity-20 transition-all duration-300">
             <Activity size={64} />
           </div>
           <div className="relative z-10">
             <h3 className="text-sm font-medium text-textMuted">Tasks Worked On</h3>
-            <p className="text-3xl font-bold text-text mt-2">{summary.tasksWorkedOn}</p>
+            <p className="text-3xl font-bold text-text mt-2 group-hover:text-primary transition-colors">{summary.tasksWorkedOn}</p>
           </div>
         </div>
 
-        <div className="card bg-gradient-to-br from-surface to-surfaceHover border-l-4 border-l-warning relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-4 opacity-10">
+        <div className="card bg-gradient-to-br from-surface to-surfaceHover border-l-4 border-l-warning relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 group-hover:opacity-20 transition-all duration-300">
             <Clock size={64} />
           </div>
           <div className="relative z-10">
             <h3 className="text-sm font-medium text-textMuted">Total Tracked Time</h3>
-            <p className="text-3xl font-bold text-text mt-2">{formatDuration(summary.totalTrackedSeconds)}</p>
+            <p className="text-3xl font-bold text-text mt-2 group-hover:text-warning transition-colors">{formatDuration(summary.totalTrackedSeconds)}</p>
           </div>
         </div>
 
-        <div className="card bg-gradient-to-br from-surface to-surfaceHover border-l-4 border-l-success relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-4 opacity-10">
+        <div className="card bg-gradient-to-br from-surface to-surfaceHover border-l-4 border-l-success relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 group-hover:opacity-20 transition-all duration-300">
             <CheckCircle2 size={64} />
           </div>
           <div className="relative z-10">
             <h3 className="text-sm font-medium text-textMuted">Completed Today</h3>
-            <p className="text-3xl font-bold text-text mt-2">{summary.completedTasks}</p>
+            <p className="text-3xl font-bold text-text mt-2 group-hover:text-success transition-colors">{summary.completedTasks}</p>
           </div>
         </div>
 
-        <div className="card bg-gradient-to-br from-surface to-surfaceHover border-l-4 border-l-textMuted relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-4 opacity-10">
+        <div className="card bg-gradient-to-br from-surface to-surfaceHover border-l-4 border-l-textMuted relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 group-hover:opacity-20 transition-all duration-300">
             <ListTodo size={64} />
           </div>
           <div className="relative z-10">
             <h3 className="text-sm font-medium text-textMuted">Remaining Tasks</h3>
-            <p className="text-3xl font-bold text-text mt-2">{summary.pendingTasks + summary.inProgressTasks}</p>
+            <p className="text-3xl font-bold text-text mt-2 group-hover:text-text transition-colors">{summary.pendingTasks + summary.inProgressTasks}</p>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="card flex flex-col items-center justify-center text-center p-10 h-64 border-dashed bg-transparent hover:bg-surfaceHover/30 transition-colors cursor-pointer">
+        <div className="card flex flex-col items-center justify-center text-center p-10 h-64 border-dashed border-border bg-transparent hover:bg-surfaceHover/30 hover:border-primary/50 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 cursor-pointer group">
           <Link to="/tasks" className="flex flex-col items-center justify-center w-full h-full">
-            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center text-primary mb-4 shadow-premium">
+            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center text-primary mb-4 shadow-premium group-hover:scale-110 transition-transform duration-300">
               <ListTodo size={32} />
             </div>
-            <h3 className="text-xl font-bold text-text">Manage Tasks</h3>
+            <h3 className="text-xl font-bold text-text group-hover:text-primary transition-colors">Manage Tasks</h3>
             <p className="text-textMuted text-sm mt-2">View all your tasks or create a new one to start tracking time.</p>
           </Link>
         </div>
         
-        <div className="card flex flex-col items-center justify-center text-center p-10 h-64 border-dashed bg-transparent hover:bg-surfaceHover/30 transition-colors cursor-pointer">
+        <div className="card flex flex-col items-center justify-center text-center p-10 h-64 border-dashed border-border bg-transparent hover:bg-surfaceHover/30 hover:border-warning/50 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 cursor-pointer group">
           <Link to="/analytics" className="flex flex-col items-center justify-center w-full h-full">
-            <div className="w-16 h-16 bg-warning/20 rounded-full flex items-center justify-center text-warning mb-4 shadow-premium">
+            <div className="w-16 h-16 bg-warning/20 rounded-full flex items-center justify-center text-warning mb-4 shadow-premium group-hover:scale-110 transition-transform duration-300">
               <Activity size={32} />
             </div>
-            <h3 className="text-xl font-bold text-text">View Analytics</h3>
+            <h3 className="text-xl font-bold text-text group-hover:text-warning transition-colors">View Analytics</h3>
             <p className="text-textMuted text-sm mt-2">Deep dive into your weekly productivity trends and task distribution.</p>
           </Link>
         </div>

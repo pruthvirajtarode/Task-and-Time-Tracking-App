@@ -26,11 +26,11 @@ export const Sidebar = () => {
             key={item.name}
             to={item.path}
             className={({ isActive }) => clsx(
-              "flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors",
+              "flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-300 group hover:translate-x-2",
               isActive ? "bg-primary/10 text-primary" : "text-textMuted hover:bg-surfaceHover hover:text-text"
             )}
           >
-            <item.icon size={20} />
+            <item.icon size={20} className="group-hover:scale-110 transition-transform duration-300" />
             {item.name}
           </NavLink>
         ))}
