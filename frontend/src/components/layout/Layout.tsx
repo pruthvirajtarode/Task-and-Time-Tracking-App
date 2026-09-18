@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
+import { BottomNav } from './BottomNav';
 import { TimerWidget } from '../timer/TimerWidget';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -9,7 +10,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden relative">
         <Topbar />
-        <main className="flex-1 overflow-y-auto p-6 relative">
+        <main className="flex-1 overflow-y-auto p-6 pb-24 md:pb-6 relative">
           <div className="max-w-7xl mx-auto w-full h-full">
             {children}
           </div>
@@ -17,6 +18,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         {/* Global active timer widget */}
         <TimerWidget />
       </div>
+      <BottomNav />
     </div>
   );
 };

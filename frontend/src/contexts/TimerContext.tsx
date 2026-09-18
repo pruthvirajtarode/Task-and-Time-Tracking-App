@@ -34,7 +34,8 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const fetchActiveTimer = async () => {
     try {
-      const res: any = await api.get('/timer/active');
+      // Append timestamp to prevent aggressive browser/CDN caching on Vercel
+      const res: any = await api.get(`/timer/active?t=${Date.now()}`);
       if (res.success && res.data.activeTimer) {
         setActiveTimer(res.data.activeTimer);
       } else {

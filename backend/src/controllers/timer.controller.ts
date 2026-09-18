@@ -26,6 +26,7 @@ export const stopTimer = async (req: Request, res: Response, next: NextFunction)
 export const getActiveTimer = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const activeTimer = await timerService.getActiveTimer(req.user!.id);
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
     return sendSuccess(res, { activeTimer });
   } catch (error) {
     next(error);

@@ -9,9 +9,9 @@ export const TimerWidget = () => {
   if (!activeTimer) return null;
 
   return (
-    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-surface border border-primary shadow-premium rounded-full px-6 py-3 flex items-center gap-6 animate-slide-up z-50">
-      <div className="flex items-center gap-3">
-        <div className="w-2.5 h-2.5 rounded-full bg-danger animate-pulse" />
+    <div className="absolute bottom-24 md:bottom-6 left-1/2 -translate-x-1/2 bg-surface border border-primary shadow-premium rounded-full px-6 py-3 flex items-center gap-6 animate-slide-up z-50 w-[90%] md:w-auto overflow-hidden">
+      <div className="flex items-center gap-3 shrink-0">
+        <div className="w-2.5 h-2.5 rounded-full bg-danger animate-pulse shrink-0" />
         <div className="flex flex-col">
           <span className="text-xs font-semibold text-textMuted uppercase tracking-wider">Tracking</span>
           <span className="text-sm font-medium text-text max-w-[200px] truncate" title={activeTimer.task.title}>

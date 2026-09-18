@@ -72,10 +72,10 @@ export const Register = () => {
   return (
     <>
       <SEO title="Sign Up" />
-      <div className="min-h-screen flex bg-background">
+      <div className="min-h-screen flex flex-col lg:flex-row bg-background">
         
-        {/* Left Side: Image Container (Hidden on mobile) */}
-        <div className="hidden lg:flex w-1/2 relative bg-surface items-center justify-center overflow-hidden">
+        {/* Top/Left Side: Image Container */}
+        <div className="flex w-full h-48 lg:h-auto lg:w-1/2 relative bg-surface items-center justify-center overflow-hidden shrink-0">
           <div className="absolute inset-0 bg-primary/10 z-10 mix-blend-overlay pointer-events-none"></div>
           <img 
             src="/auth-bg.png" 
@@ -83,14 +83,14 @@ export const Register = () => {
             className={`w-full h-full object-cover opacity-80 cursor-pointer transition-transform duration-700 ease-in-out ${isImageZoomed ? 'scale-125' : 'scale-100 hover:scale-105'}`}
             onClick={() => setIsImageZoomed(!isImageZoomed)}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent z-10 flex flex-col justify-end p-12 pointer-events-none">
-            <h2 className="text-4xl font-bold text-white mb-4">Empower Your Productivity.</h2>
-            <p className="text-textMuted text-lg max-w-md">Join TaskFlow AI and streamline your workflow with intelligent task and time management tailored for professionals.</p>
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent z-10 flex flex-col justify-end p-6 lg:p-12 pointer-events-none">
+            <h2 className="text-2xl lg:text-4xl font-bold text-white mb-2 lg:mb-4">Start Your Journey.</h2>
+            <p className="text-textMuted text-sm lg:text-lg max-w-md hidden md:block">Join TaskFlow and take control of your time, tasks, and productivity today.</p>
           </div>
         </div>
 
-        {/* Right Side: Form Container */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative">
+        {/* Bottom/Right Side: Form Container */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative flex-1">
           {/* Subtle background glow for mobile */}
           <div className="lg:hidden absolute -top-32 -left-32 w-64 h-64 bg-primary/20 rounded-full blur-3xl -z-10" />
           <div className="lg:hidden absolute -bottom-32 -right-32 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10" />
