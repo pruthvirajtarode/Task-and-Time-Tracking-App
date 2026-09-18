@@ -91,6 +91,7 @@ export const TimeLogs = () => {
           </table>
         </div>
       </div>
+    </div>
     </>
   );
 };
