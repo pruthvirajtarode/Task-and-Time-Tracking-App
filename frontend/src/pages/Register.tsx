@@ -3,34 +3,55 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../services/api';
 import { toast } from 'sonner';
-import { Loader2, Eye, EyeOff } from 'lucide-react';
+import { Loader2, Eye, EyeOff, CheckCircle2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { SEO } from '../components/SEO';
+
+const registerSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters').regex(/^[a-zA-Z\s]+$/, 'Name can only contain letters and spaces'),
+  email: z.string().email('Invalid email format'),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .regex(/[0-9]/, 'Password must contain at least one number')
+    .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character'),
+  confirmPassword: z.string()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
+type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !email || !password || !confirmPassword) {
-      toast.error('Please fill in all fields');
-      return;
-    }
+  const { register, handleSubmit, formState: { errors, isValid }, watch } = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
+    mode: 'onChange'
+  });
 
-    if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
-    }
+  const passwordValue = watch('password');
+  const confirmPasswordValue = watch('confirmPassword');
+  
+  const isConfirmMatch = passwordValue && confirmPasswordValue && passwordValue === confirmPasswordValue;
 
+  const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
     try {
-      const res: any = await api.post('/auth/register', { name, email, password });
+      const res: any = await api.post('/auth/register', { 
+        name: data.name, 
+        email: data.email, 
+        password: data.password 
+      });
       if (res.success) {
         login(res.data.token, res.data.user);
         toast.success('Account created successfully');
@@ -44,92 +65,126 @@ export const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <div className="card w-full max-w-md animate-fade-in relative overflow-hidden">
-        <div className="absolute -top-32 -left-32 w-64 h-64 bg-primary/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
+    <>
+      <SEO title="Sign Up" />
+      <div className="min-h-screen flex bg-background">
         
-        <div className="relative z-10">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-text">TaskFlow AI</h1>
-            <p className="text-textMuted mt-2">Create your account to get started.</p>
+        {/* Left Side: Image Container (Hidden on mobile) */}
+        <div className="hidden lg:flex w-1/2 relative bg-surface items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 bg-primary/10 z-10 mix-blend-overlay"></div>
+          <img 
+            src="/auth-bg.png" 
+            alt="Productivity Abstract" 
+            className="w-full h-full object-cover opacity-80"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent z-10 flex flex-col justify-end p-12">
+            <h2 className="text-4xl font-bold text-white mb-4">Empower Your Productivity.</h2>
+            <p className="text-textMuted text-lg max-w-md">Join TaskFlow AI and streamline your workflow with intelligent task and time management tailored for professionals.</p>
           </div>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-textMuted mb-1">Full Name</label>
-              <input
-                type="text"
-                className="input-field"
-                placeholder="John Doe"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={isLoading}
-              />
+        {/* Right Side: Form Container */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative">
+          {/* Subtle background glow for mobile */}
+          <div className="lg:hidden absolute -top-32 -left-32 w-64 h-64 bg-primary/20 rounded-full blur-3xl -z-10" />
+          <div className="lg:hidden absolute -bottom-32 -right-32 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10" />
+
+          <div className="w-full max-w-md animate-fade-in">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-text">TaskFlow AI</h1>
+              <p className="text-textMuted mt-2">Create your account to get started.</p>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-textMuted mb-1">Email</label>
-              <input
-                type="email"
-                className="input-field"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isLoading}
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-textMuted mb-1">Password</label>
-              <div className="relative">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-textMuted mb-1">Full Name</label>
                 <input
-                  type={showPassword ? 'text' : 'password'}
-                  className="input-field pr-10"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  type="text"
+                  className={`input-field ${errors.name ? 'border-danger focus:border-danger focus:ring-danger' : ''}`}
+                  placeholder="John Doe"
                   disabled={isLoading}
+                  {...register('name')}
                 />
-                <button
-                  type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-textMuted hover:text-text transition-colors"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
+                {errors.name && <p className="text-danger text-xs mt-1">{errors.name.message}</p>}
               </div>
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium text-textMuted mb-1">Confirm Password</label>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                className="input-field"
-                placeholder="••••••••"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                disabled={isLoading}
-              />
-            </div>
+              <div>
+                <label className="block text-sm font-medium text-textMuted mb-1">Email</label>
+                <input
+                  type="email"
+                  className={`input-field ${errors.email ? 'border-danger focus:border-danger focus:ring-danger' : ''}`}
+                  placeholder="you@example.com"
+                  disabled={isLoading}
+                  {...register('email')}
+                />
+                {errors.email && <p className="text-danger text-xs mt-1">{errors.email.message}</p>}
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-textMuted mb-1">Password</label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    className={`input-field pr-10 ${errors.password ? 'border-danger focus:border-danger focus:ring-danger' : ''}`}
+                    placeholder="••••••••"
+                    disabled={isLoading}
+                    {...register('password')}
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-textMuted hover:text-text transition-colors"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+                {errors.password && <p className="text-danger text-xs mt-1">{errors.password.message}</p>}
+              </div>
 
-            <button
-              type="submit"
-              className="btn-primary w-full mt-6"
-              disabled={isLoading}
-            >
-              {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Create Account'}
-            </button>
-          </form>
+              <div>
+                <label className="block text-sm font-medium text-textMuted mb-1">Confirm Password</label>
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    className={`input-field pr-10 transition-colors duration-300
+                      ${errors.confirmPassword && !isConfirmMatch ? 'border-danger focus:border-danger focus:ring-danger' : ''}
+                      ${isConfirmMatch ? 'border-success text-success focus:border-success focus:ring-success' : ''}
+                    `}
+                    placeholder="••••••••"
+                    disabled={isLoading}
+                    {...register('confirmPassword')}
+                  />
+                  <button
+                    type="button"
+                    className={`absolute right-3 top-1/2 -translate-y-1/2 transition-colors
+                      ${isConfirmMatch ? 'text-success' : 'text-textMuted hover:text-text'}
+                    `}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {isConfirmMatch ? <CheckCircle2 size={18} /> : showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+                {errors.confirmPassword && !isConfirmMatch && <p className="text-danger text-xs mt-1">{errors.confirmPassword.message}</p>}
+              </div>
 
-          <p className="text-center text-sm text-textMuted mt-6">
-            Already have an account?{' '}
-            <Link to="/login" className="text-primary hover:text-primaryHover font-medium transition-colors">
-              Log in
-            </Link>
-          </p>
+              <button
+                type="submit"
+                className="btn-primary w-full mt-6 py-3"
+                disabled={isLoading || !isValid}
+              >
+                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Create Account'}
+              </button>
+            </form>
+
+            <p className="text-center text-sm text-textMuted mt-6">
+              Already have an account?{' '}
+              <Link to="/login" className="text-primary hover:text-primaryHover font-medium transition-colors">
+                Log in
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

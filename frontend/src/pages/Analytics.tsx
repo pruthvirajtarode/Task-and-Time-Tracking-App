@@ -7,6 +7,7 @@ import {
   LineChart, Line, PieChart, Pie, Cell
 } from 'recharts';
 import { formatDuration } from '../utils/format';
+import { SEO } from '../components/SEO';
 
 export const Analytics = () => {
   const { data: response, isLoading } = useQuery({
@@ -45,7 +46,9 @@ export const Analytics = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in pb-10">
+    <>
+      <SEO title="Analytics" />
+      <div className="space-y-8 animate-fade-in pb-10">
       <div>
         <h1 className="text-2xl font-bold text-text">Productivity Analytics</h1>
         <p className="text-textMuted text-sm mt-1">Insights into your weekly performance and time distribution.</p>
@@ -120,6 +123,6 @@ export const Analytics = () => {
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 };

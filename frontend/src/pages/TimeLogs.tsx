@@ -4,6 +4,7 @@ import api from '../services/api';
 import { format } from 'date-fns';
 import { formatDuration } from '../utils/format';
 import { Loader2, Clock, Calendar } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 export const TimeLogs = () => {
   const { data: response, isLoading } = useQuery({
@@ -18,7 +19,9 @@ export const TimeLogs = () => {
   const totalTrackedToday = todayLogs.reduce((acc: number, log: any) => acc + (log.durationSeconds || 0), 0);
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <>
+      <SEO title="Time Logs" />
+      <div className="space-y-6 animate-fade-in">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-text">Time Logs</h1>
@@ -88,6 +91,6 @@ export const TimeLogs = () => {
           </table>
         </div>
       </div>
-    </div>
+    </>
   );
 };

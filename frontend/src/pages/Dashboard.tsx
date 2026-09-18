@@ -5,6 +5,7 @@ import { formatDuration } from '../utils/format';
 import { useAuth } from '../contexts/AuthContext';
 import { Loader2, CheckCircle2, Clock, ListTodo, Activity } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { SEO } from '../components/SEO';
 
 export const Dashboard = () => {
   const { user } = useAuth();
@@ -38,9 +39,11 @@ export const Dashboard = () => {
   }
 
   return (
-    <div className="space-y-8 animate-fade-in pb-20">
-      <div>
-        <h1 className="text-3xl font-bold text-text">{getGreeting()} 👋</h1>
+    <>
+      <SEO title="Dashboard" />
+      <div className="space-y-8 animate-fade-in pb-20">
+        <div>
+          <h1 className="text-3xl font-bold text-text">{getGreeting()} 👋</h1>
         <p className="text-textMuted mt-2">Here's your productivity overview for today.</p>
       </div>
 
@@ -107,6 +110,6 @@ export const Dashboard = () => {
           </Link>
         </div>
       </div>
-    </div>
+    </>
   );
 };
