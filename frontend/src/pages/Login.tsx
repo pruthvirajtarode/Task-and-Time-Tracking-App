@@ -76,7 +76,7 @@ export const Login = () => {
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              <div>
+              <div className="animate-slide-up" style={{ animationDelay: '100ms', opacity: 0, animationFillMode: 'forwards' }}>
                 <label className="block text-sm font-medium text-textMuted mb-1">Email</label>
                 <input
                   type="email"
@@ -88,7 +88,7 @@ export const Login = () => {
                 {errors.email && <p className="text-danger text-xs mt-1">{errors.email.message}</p>}
               </div>
               
-              <div>
+              <div className="animate-slide-up" style={{ animationDelay: '200ms', opacity: 0, animationFillMode: 'forwards' }}>
                 <label className="block text-sm font-medium text-textMuted mb-1">Password</label>
                 <div className="relative">
                   <input
@@ -109,16 +109,18 @@ export const Login = () => {
                 {errors.password && <p className="text-danger text-xs mt-1">{errors.password.message}</p>}
               </div>
 
-              <button
-                type="submit"
-                className="btn-primary w-full mt-6 py-3"
-                disabled={isLoading || !isValid}
-              >
-                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Log In'}
-              </button>
+              <div className="animate-slide-up" style={{ animationDelay: '300ms', opacity: 0, animationFillMode: 'forwards' }}>
+                <button
+                  type="submit"
+                  className="btn-primary w-full mt-6 py-3"
+                  disabled={isLoading || !isValid}
+                >
+                  {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Log In'}
+                </button>
+              </div>
             </form>
 
-            <p className="text-center text-sm text-textMuted mt-6">
+            <p className="text-center text-sm text-textMuted mt-6 animate-slide-up" style={{ animationDelay: '400ms', opacity: 0, animationFillMode: 'forwards' }}>
               Don't have an account?{' '}
               <Link to="/register" className="text-primary hover:text-primaryHover font-medium transition-colors">
                 Sign up

@@ -96,7 +96,7 @@ export const Register = () => {
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              <div>
+              <div className="animate-slide-up" style={{ animationDelay: '100ms', opacity: 0, animationFillMode: 'forwards' }}>
                 <label className="block text-sm font-medium text-textMuted mb-1">Full Name</label>
                 <input
                   type="text"
@@ -108,7 +108,7 @@ export const Register = () => {
                 {errors.name && <p className="text-danger text-xs mt-1">{errors.name.message}</p>}
               </div>
 
-              <div>
+              <div className="animate-slide-up" style={{ animationDelay: '200ms', opacity: 0, animationFillMode: 'forwards' }}>
                 <label className="block text-sm font-medium text-textMuted mb-1">Email</label>
                 <input
                   type="email"
@@ -120,7 +120,7 @@ export const Register = () => {
                 {errors.email && <p className="text-danger text-xs mt-1">{errors.email.message}</p>}
               </div>
               
-              <div>
+              <div className="animate-slide-up" style={{ animationDelay: '300ms', opacity: 0, animationFillMode: 'forwards' }}>
                 <label className="block text-sm font-medium text-textMuted mb-1">Password</label>
                 <div className="relative">
                   <input
@@ -138,10 +138,33 @@ export const Register = () => {
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
-                {errors.password && <p className="text-danger text-xs mt-1">{errors.password.message}</p>}
+                
+                {/* Dynamic Password Checklist */}
+                <div className="mt-3 space-y-1">
+                  <div className="flex items-center gap-2 text-xs">
+                    <CheckCircle2 size={14} className={passwordValue?.length >= 8 ? "text-success" : "text-textMuted/40"} />
+                    <span className={passwordValue?.length >= 8 ? "text-textMuted" : "text-textMuted/60"}>At least 8 characters</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs">
+                    <CheckCircle2 size={14} className={/[A-Z]/.test(passwordValue || '') ? "text-success" : "text-textMuted/40"} />
+                    <span className={/[A-Z]/.test(passwordValue || '') ? "text-textMuted" : "text-textMuted/60"}>One uppercase letter</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs">
+                    <CheckCircle2 size={14} className={/[a-z]/.test(passwordValue || '') ? "text-success" : "text-textMuted/40"} />
+                    <span className={/[a-z]/.test(passwordValue || '') ? "text-textMuted" : "text-textMuted/60"}>One lowercase letter</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs">
+                    <CheckCircle2 size={14} className={/[0-9]/.test(passwordValue || '') ? "text-success" : "text-textMuted/40"} />
+                    <span className={/[0-9]/.test(passwordValue || '') ? "text-textMuted" : "text-textMuted/60"}>One number</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs">
+                    <CheckCircle2 size={14} className={/[^A-Za-z0-9]/.test(passwordValue || '') ? "text-success" : "text-textMuted/40"} />
+                    <span className={/[^A-Za-z0-9]/.test(passwordValue || '') ? "text-textMuted" : "text-textMuted/60"}>One special character</span>
+                  </div>
+                </div>
               </div>
 
-              <div>
+              <div className="animate-slide-up" style={{ animationDelay: '400ms', opacity: 0, animationFillMode: 'forwards' }}>
                 <label className="block text-sm font-medium text-textMuted mb-1">Confirm Password</label>
                 <div className="relative">
                   <input
@@ -167,16 +190,18 @@ export const Register = () => {
                 {errors.confirmPassword && !isConfirmMatch && <p className="text-danger text-xs mt-1">{errors.confirmPassword.message}</p>}
               </div>
 
-              <button
-                type="submit"
-                className="btn-primary w-full mt-6 py-3"
-                disabled={isLoading || !isValid}
-              >
-                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Create Account'}
-              </button>
+              <div className="animate-slide-up" style={{ animationDelay: '500ms', opacity: 0, animationFillMode: 'forwards' }}>
+                <button
+                  type="submit"
+                  className="btn-primary w-full mt-6 py-3"
+                  disabled={isLoading || !isValid}
+                >
+                  {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Create Account'}
+                </button>
+              </div>
             </form>
 
-            <p className="text-center text-sm text-textMuted mt-6">
+            <p className="text-center text-sm text-textMuted mt-6 animate-slide-up" style={{ animationDelay: '600ms', opacity: 0, animationFillMode: 'forwards' }}>
               Already have an account?{' '}
               <Link to="/login" className="text-primary hover:text-primaryHover font-medium transition-colors">
                 Log in
