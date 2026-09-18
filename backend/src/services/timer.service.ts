@@ -6,11 +6,12 @@ export const startTimer = async (userId: string, taskId: string) => {
   await getTaskById(userId, taskId);
 
   // Check if there is already an active timer
-  const activeLog = await prisma.timeLog.findFirst({
-    where: { userId, endedAt: null },
+  const latestLog = await prisma.timeLog.findFirst({
+    where: { userId },
+    orderBy: { startedAt: 'desc' },
   });
 
-  if (activeLog) {
+  if (latestLog && !latestLog.endedAt) {
     throw { code: 'CONFLICT', message: 'Another task is currently being tracked. Stop the current timer before starting a new one.' };
   }
 
@@ -32,12 +33,13 @@ export const startTimer = async (userId: string, taskId: string) => {
 };
 
 export const stopTimer = async (userId: string, taskId: string) => {
-  // Find active timer for this specific task and user
+  // Find active timer by getting the latest log for this task
   const activeLog = await prisma.timeLog.findFirst({
-    where: { userId, taskId, endedAt: null },
+    where: { userId, taskId },
+    orderBy: { startedAt: 'desc' },
   });
 
-  if (!activeLog) {
+  if (!activeLog || activeLog.endedAt) {
     throw { code: 'NOT_FOUND', message: 'No active timer found for this task' };
   }
 
@@ -57,14 +59,21 @@ export const stopTimer = async (userId: string, taskId: string) => {
 };
 
 export const getActiveTimer = async (userId: string) => {
-  return prisma.timeLog.findFirst({
-    where: { userId, endedAt: null },
+  const latestLog = await prisma.timeLog.findFirst({
+    where: { userId },
+    orderBy: { startedAt: 'desc' },
     include: {
       task: {
         select: { id: true, title: true }
       }
     }
   });
+
+  if (latestLog && !latestLog.endedAt) {
+    return latestLog;
+  }
+  
+  return null;
 };
 
 export const getTimeLogs = async (userId: string, taskId?: string) => {
