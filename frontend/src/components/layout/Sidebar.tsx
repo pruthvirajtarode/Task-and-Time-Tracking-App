@@ -38,8 +38,8 @@ export const Sidebar = () => {
 
       <div className="p-4 border-t border-border">
         <div className="flex items-center gap-3 mb-4 px-2">
-          <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-            {user?.name?.charAt(0).toUpperCase() || <UserIcon size={20} />}
+          <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold overflow-hidden shadow-sm border border-border">
+            <img src="/profile-avatar.png" alt="Profile" className="w-full h-full object-cover" />
           </div>
           <div className="flex-1 overflow-hidden">
             <p className="text-sm font-medium text-text truncate">{user?.name}</p>
